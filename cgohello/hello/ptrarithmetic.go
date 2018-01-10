@@ -1,4 +1,4 @@
-package cgohello
+package hello
 
 // #include "hello.h"
 import "C"

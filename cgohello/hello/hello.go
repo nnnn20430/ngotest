@@ -1,8 +1,8 @@
-package cgohello
+package hello
 
 // #include "hello.h"
 import "C"
 
-func World() {
+func Hello() {
 	C.hello()
 }

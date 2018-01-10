@@ -1,15 +1,15 @@
 package main
 
 import "fmt"
-import "./cgohello"
+import . "hello"
 
 func main() {
 	fmt.Printf("simple call:\n")
-	cgohello.World()
+	Hello()
 	fmt.Printf("\nuse GoString():\n")
-	cgohello.PtrToStr()
+	PtrToStr()
 	fmt.Printf("\nconvert pointer to array:\n")
-	cgohello.PtrToArr()
+	PtrToArr()
 	fmt.Printf("\nuse pointer arithmetic:\n")
-	cgohello.PtrArithmetic()
+	PtrArithmetic()
 }
