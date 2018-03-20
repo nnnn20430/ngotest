@@ -22,5 +22,5 @@ func main() {
 	io.ReadFull(f, buf)
 	f.Close()
 	fmt.Printf("%v", string(buf))
-	buf = nil
+	ptrFree(&buf)
 }
