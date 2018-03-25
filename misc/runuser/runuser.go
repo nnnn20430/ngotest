@@ -26,13 +26,16 @@ func parseArgs() {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
+
 	flag.BoolVar(&f_setsid, "s", false, "Create new session (setsid)")
 	flag.BoolVar(&f_preserve_env, "p", false, "Preserve environment")
 	flag.BoolVar(&f_login, "l", false, "Run the command as a login shell, envrionment is cleared and \"-p\" flag is ignored")
 	flag.Parse()
+
 	if f_login {
 		f_preserve_env = false
 	}
+
 	if len(flag.Args()) < 2 {
 		flag.Usage()
 	}
@@ -73,8 +76,11 @@ func main() {
 		pArgs []string;
 		pCmd string;
 		p *os.Process;
+		ps *os.ProcessState
 	)
+
 	parseArgs()
+
 	if f_login {
 		var v, ok = envGet("TERM")
 		env = []string{}
@@ -83,7 +89,9 @@ func main() {
 		}
 		envSet("PATH", "/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin")
 	}
+
 	strArr = strings.Split(flag.Args()[0], ":")
+
 	if i, err := strconv.Atoi(strArr[0]); err == nil {
 		uid = uint32(i)
 	} else if u, err := user.Lookup(strArr[0]); err == nil {
@@ -93,6 +101,7 @@ func main() {
 		fmt.Printf("%v\n", err)
 		os.Exit(1)
 	}
+
 	if len(strArr) > 1 && strArr[1] != "" {
 		if i, err := strconv.Atoi(strArr[1]); err == nil {
 			gid = uint32(i)
@@ -106,6 +115,7 @@ func main() {
 	} else {
 		gid = uid
 	}
+
 	if u, err := user.LookupId(strconv.FormatUint(uint64(uid), 10)); err == nil {
 		if ug, err := u.GroupIds(); err == nil {
 			for _, v := range ug {
@@ -119,16 +129,20 @@ func main() {
 			envSet("USER", u.Username)
 		}
 	}
+
 	pArgs = make([]string, len(flag.Args()[1:]))
 	copy(pArgs, flag.Args()[1:])
+
 	pCmd, err = exec.LookPath(pArgs[0])
 	if err != nil {
 		fmt.Printf("%v\n", err)
 		os.Exit(1)
 	}
+
 	if f_login {
 		pArgs[0] = "-"
 	}
+
 	p, err = os.StartProcess(pCmd, pArgs, &os.ProcAttr{
 		Env: env,
 		Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
@@ -145,5 +159,14 @@ func main() {
 		fmt.Printf("%v\n", err)
 		os.Exit(1)
 	}
-	p.Wait()
+
+	ps, err = p.Wait()
+	if err != nil {
+		fmt.Printf("%v\n", err)
+		os.Exit(1)
+	}
+
+	if ps.Exited() {
+		os.Exit(ps.Sys().(syscall.WaitStatus).ExitStatus())
+	}
 }
