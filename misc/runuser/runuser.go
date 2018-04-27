@@ -12,12 +12,12 @@ import (
 )
 
 var (
-	err error;
-	env = os.Environ();
+	err error
+	env = os.Environ()
 
-	f_setsid bool;
-	f_preserve_env bool;
-	f_login bool;
+	f_setsid bool
+	f_preserve_env bool
+	f_login bool
 )
 
 func parseArgs() {
@@ -42,7 +42,7 @@ func parseArgs() {
 }
 
 func envDel(key string) {
-	var envNew = []string{};
+	var envNew = []string{}
 	for _, e := range env {
 		pair := strings.Split(e, "=")
 		if pair[0] != key {
@@ -69,13 +69,13 @@ func envSet(key, val string) {
 
 func main() {
 	var (
-		strArr []string;
-		uid uint32;
-		gid uint32;
-		groups []uint32;
-		pArgs []string;
-		pCmd string;
-		p *os.Process;
+		strArr []string
+		uid uint32
+		gid uint32
+		groups []uint32
+		pArgs []string
+		pCmd string
+		p *os.Process
 		ps *os.ProcessState
 	)
 
