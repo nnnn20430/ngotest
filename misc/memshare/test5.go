@@ -12,7 +12,6 @@ func print_count_after_sec(i *int) {
 	}
 }
 
-
 func noop() {
 	// prevent inlining
 	for {
