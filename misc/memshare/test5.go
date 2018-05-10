@@ -5,7 +5,7 @@ package main
 import "fmt"
 import "time"
 
-func print_count_after_sec(i *int) {
+func printCountAfterSec(i *int) {
 	for {
 		time.Sleep(1 * time.Second)
 		fmt.Printf("%d\n", *i)
@@ -22,8 +22,8 @@ func noop() {
 }
 
 func main() {
-	var i *int = new(int)
-	go print_count_after_sec(i)
+	var i = new(int)
+	go printCountAfterSec(i)
 	for {
 		*i++
 		// prevent optimization

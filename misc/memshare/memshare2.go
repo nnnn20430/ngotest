@@ -5,7 +5,7 @@ package main
 import "fmt"
 import "time"
 
-func res_count_after_sec(i, ir *int) {
+func resCountAfterSec(i, ir *int) {
 	for {
 		time.Sleep(1 * time.Second)
 		fmt.Printf("%d\n", *i)
@@ -15,7 +15,7 @@ func res_count_after_sec(i, ir *int) {
 
 func main() {
 	var i, ir int
-	go res_count_after_sec(&i, &ir)
+	go resCountAfterSec(&i, &ir)
 	for {
 		i++
 		if ir == 1 {

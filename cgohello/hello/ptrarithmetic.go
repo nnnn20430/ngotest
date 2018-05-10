@@ -5,6 +5,8 @@ import "C"
 import "fmt"
 import "unsafe"
 
+// PtrArithmetic reads a C string using unsafe.Pointer arithmetic
+// until a null char is encountered and print it
 func PtrArithmetic() {
 	var ret *C.char = C.hello_string()
 	var start uintptr = uintptr(unsafe.Pointer(ret))

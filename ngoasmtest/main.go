@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 
-func asm_GetStr() string
+func asmGetStr() string
 
 func main() {
-	fmt.Printf("%v", asm_GetStr())
+	fmt.Printf("%v", asmGetStr())
 }

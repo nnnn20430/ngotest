@@ -15,9 +15,9 @@ var (
 	err error
 	env = os.Environ()
 
-	f_setsid bool
-	f_preserve_env bool
-	f_login bool
+	fSetsid bool
+	fPreserveEnv bool
+	fLogin bool
 )
 
 func parseArgs() {
@@ -27,13 +27,13 @@ func parseArgs() {
 		os.Exit(1)
 	}
 
-	flag.BoolVar(&f_setsid, "s", false, "Create new session (setsid)")
-	flag.BoolVar(&f_preserve_env, "p", false, "Preserve environment")
-	flag.BoolVar(&f_login, "l", false, "Run the command as a login shell, envrionment is cleared and \"-p\" flag is ignored")
+	flag.BoolVar(&fSetsid, "s", false, "Create new session (setsid)")
+	flag.BoolVar(&fPreserveEnv, "p", false, "Preserve environment")
+	flag.BoolVar(&fLogin, "l", false, "Run the command as a login shell, envrionment is cleared and \"-p\" flag is ignored")
 	flag.Parse()
 
-	if f_login {
-		f_preserve_env = false
+	if fLogin {
+		fPreserveEnv = false
 	}
 
 	if len(flag.Args()) < 2 {
@@ -81,7 +81,7 @@ func main() {
 
 	parseArgs()
 
-	if f_login {
+	if fLogin {
 		var v, ok = envGet("TERM")
 		env = []string{}
 		if ok {
@@ -124,7 +124,7 @@ func main() {
 				}
 			}
 		}
-		if !f_preserve_env {
+		if !fPreserveEnv {
 			envSet("HOME", u.HomeDir)
 			envSet("USER", u.Username)
 		}
@@ -139,7 +139,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if f_login {
+	if fLogin {
 		pArgs[0] = "-"
 	}
 
@@ -152,7 +152,7 @@ func main() {
 				Gid: gid,
 				Groups: groups,
 			},
-			Setsid: f_setsid,
+			Setsid: fSetsid,
 		},
 	})
 	if err != nil {

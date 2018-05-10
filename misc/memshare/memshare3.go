@@ -8,7 +8,7 @@ import "sync"
 
 var l sync.Mutex
 
-func res_count_after_sec(i *int) {
+func resCountAfterSec(i *int) {
 	for {
 		l.Lock()
 		*i = 0
@@ -19,8 +19,8 @@ func res_count_after_sec(i *int) {
 }
 
 func main() {
-	var i *int = new(int)
-	go res_count_after_sec(i)
+	var i = new(int)
+	go resCountAfterSec(i)
 	for {
 		l.Lock()
 		*i++
