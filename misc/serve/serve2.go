@@ -1,3 +1,5 @@
+// +build ignore
+
 package main
 
 import (
@@ -13,5 +15,6 @@ func (s htmlString) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.Handle("/", htmlString("Hello, world."))
-	http.ListenAndServe(":8000", nil)
+	fmt.Printf("http://localhost:8080/\n")
+	panic(http.ListenAndServe(":8080", nil))
 }

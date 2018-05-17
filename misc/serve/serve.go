@@ -1,12 +1,11 @@
-// +build ignore
-
 package main
 
 import (
 	"net/http"
+	"fmt"
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir(".")))
-	http.ListenAndServe(":8000", nil)
+	fmt.Printf("http://localhost:8080/\n")
+	panic(http.ListenAndServe(":8080", http.FileServer(http.Dir("."))))
 }
