@@ -55,7 +55,7 @@ func main() {
 	}
 
 	srv := http.Server{
-		Addr:    ":8080",
+		Addr:    ":8443",
 		Handler: http.FileServer(http.Dir(".")),
 		TLSConfig: &tls.Config{
 			Certificates: []tls.Certificate{tlsCert},
@@ -63,6 +63,6 @@ func main() {
 		},
 	}
 
-	fmt.Printf("https://localhost:8080/\n")
+	fmt.Printf("https://localhost:8443/\n")
 	panic(srv.ListenAndServeTLS("", ""))
 }
